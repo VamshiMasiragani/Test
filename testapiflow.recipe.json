@@ -1,0 +1,101 @@
+{
+  "name": "TestAPIFlow",
+  "description": "When there is a new call for callable recipe, do action",
+  "version": 3,
+  "private": true,
+  "concurrency": 1,
+  "code": {
+    "number": 0,
+    "provider": "workato_service",
+    "name": "receive_request",
+    "as": "15ddd372",
+    "title": null,
+    "description": "New <span class=\"provider\">call</span> for <span class=\"provider\">TestErrors</span>",
+    "keyword": "trigger",
+    "dynamicPickListSelection": {
+    },
+    "toggleCfg": {
+    },
+    "input": {
+      "service_name": "TestErrors",
+      "request_schema_json": "[{\"name\":\"subject\",\"type\":\"string\",\"optional\":false,\"control_type\":\"text\"},{\"name\":\"body\",\"type\":\"string\",\"optional\":false,\"control_type\":\"text\"}]",
+      "reply_schema_json": "[]"
+    },
+    "extended_output_schema": [
+      {
+        "type": "object",
+        "name": "request",
+        "label": "Recipe input",
+        "properties": [
+          {
+            "control_type": "text",
+            "label": "Subject",
+            "name": "subject",
+            "type": "string",
+            "optional": false
+          },
+          {
+            "control_type": "text",
+            "label": "Body",
+            "name": "body",
+            "type": "string",
+            "optional": false
+          }
+        ]
+      }
+    ],
+    "block": [
+      {
+        "number": 1,
+        "provider": "workato_service",
+        "name": "call_service",
+        "as": "8ffc81fd",
+        "title": null,
+        "description": "Call recipe <span class=\"provider\">Notifications</span> ",
+        "keyword": "action",
+        "dynamicPickListSelection": {
+          "flow_id": "Notifications"
+        },
+        "toggleCfg": {
+        },
+        "input": {
+          "flow_id": {
+            "zip_name": "sendnotifications.recipe.json",
+            "name": "SendNotifications",
+            "folder": ""
+          },
+          "request": {
+            "email": "vamshi.masiragani@workato.com"
+          }
+        },
+        "extended_input_schema": [
+          {
+            "type": "object",
+            "name": "request",
+            "label": "Recipe input",
+            "properties": [
+              {
+                "control_type": "text",
+                "label": "Email",
+                "name": "email",
+                "type": "string",
+                "optional": false,
+                "parent": "request"
+              }
+            ]
+          }
+        ],
+        "uuid": "30485cc0-c2d1-4752-94e5-8d1ee7b82d25"
+      }
+    ],
+    "uuid": "d4bbe985-d0c2-4a2f-8a0f-af64f38996e3"
+  },
+  "config": [
+    {
+      "keyword": "application",
+      "provider": "workato_service",
+      "account_id": null,
+      "skip_validation": false
+    }
+  ]
+}
