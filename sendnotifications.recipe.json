@@ -1,0 +1,75 @@
+{
+  "name": "SendNotifications",
+  "description": "When there is a new call for callable recipe, do action",
+  "version": 6,
+  "private": true,
+  "concurrency": 1,
+  "code": {
+    "number": 0,
+    "provider": "workato_service",
+    "name": "receive_request",
+    "as": "35101fe7",
+    "title": null,
+    "description": "New <span class=\"provider\">call</span> for <span class=\"provider\">Notifications</span>",
+    "keyword": "trigger",
+    "dynamicPickListSelection": {
+    },
+    "toggleCfg": {
+    },
+    "input": {
+      "service_name": "Notifications",
+      "request_schema_json": "[{\"name\":\"email\",\"type\":\"string\",\"optional\":false,\"control_type\":\"text\"}]"
+    },
+    "extended_output_schema": [
+      {
+        "type": "object",
+        "name": "request",
+        "label": "Recipe input",
+        "properties": [
+          {
+            "control_type": "text",
+            "label": "Email",
+            "name": "email",
+            "type": "string",
+            "optional": false
+          }
+        ]
+      }
+    ],
+    "block": [
+      {
+        "number": 1,
+        "provider": "email",
+        "name": "send_mail",
+        "as": "50e18225",
+        "keyword": "action",
+        "dynamicPickListSelection": {
+        },
+        "toggleCfg": {
+        },
+        "input": {
+          "email_type": "html",
+          "subject": "TestAPI",
+          "body": "TestAPI",
+          "to": "vamshi.masiragani@workato.com"
+        },
+        "uuid": "4ca2b2e5-4395-40d6-b2f1-2a611b55b3a3"
+      }
+    ],
+    "uuid": "e372e164-85db-4f08-b475-07e0eb53422d"
+  },
+  "config": [
+    {
+      "keyword": "application",
+      "provider": "workato_service",
+      "account_id": null,
+      "skip_validation": false
+    },
+    {
+      "keyword": "application",
+      "provider": "email",
+      "account_id": null,
+      "skip_validation": false
+    }
+  ]
+}
