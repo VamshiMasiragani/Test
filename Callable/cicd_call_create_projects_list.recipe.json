@@ -1,0 +1,209 @@
+{
+  "name": "[CICD] CALL - Create projects list",
+  "description": "Callable recipe to create a list of configured projects for CI/CD automation.",
+  "version": 6,
+  "private": true,
+  "concurrency": 1,
+  "code": {
+    "number": 0,
+    "provider": "workato_service",
+    "name": "receive_request",
+    "as": "e52a5e76",
+    "title": null,
+    "description": "New <span class=\"provider\">call</span> for <span class=\"provider\">[CICD] CALL - Create projects menu</span>",
+    "keyword": "trigger",
+    "dynamicPickListSelection": {
+    },
+    "toggleCfg": {
+    },
+    "input": {
+      "service_name": "[CICD] CALL - Create projects menu",
+      "reply_schema_json": "[{\"name\":\"projects_list\",\"type\":\"array\",\"optional\":false,\"properties\":[{\"name\":\"project_name\",\"type\":\"string\",\"optional\":false,\"control_type\":\"text\"},{\"name\":\"manifest_id\",\"type\":\"string\",\"optional\":false,\"control_type\":\"text\"}]}]"
+    },
+    "block": [
+      {
+        "number": 1,
+        "provider": "lookup_table",
+        "name": "get_entries",
+        "as": "6db75faf",
+        "title": null,
+        "description": "\n      Get all\n      <span class=\"provider\">entries</span>\n      from\n      <span class=\"provider\">[CICD] Projects configuration</span>\n      lookup table\n    ",
+        "keyword": "action",
+        "dynamicPickListSelection": {
+          "lookup_table_id": "[CICD] Projects config"
+        },
+        "toggleCfg": {
+        },
+        "input": {
+          "lookup_table_id": {
+            "zip_name": "cicd_projects_configuration.lookup_table.json",
+            "name": "[CICD] Projects configuration",
+            "folder": ""
+          }
+        },
+        "extended_output_schema": [
+          {
+            "type": "array",
+            "name": "entries",
+            "label": "Entries",
+            "of": "object",
+            "properties": [
+              {
+                "control_type": "number",
+                "label": "Entry ID",
+                "parse_output": "integer_conversion",
+                "type": "integer",
+                "name": "id"
+              },
+              {
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "Project name",
+                    "name": "col1",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Manifest ID",
+                    "name": "col2",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "GitHub repository",
+                    "name": "col3",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Reviewer username",
+                    "name": "col4",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Reviewer Slack",
+                    "name": "col5",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Test folder name",
+                    "name": "col6",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Test folder ID",
+                    "name": "col7",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Prod folder name",
+                    "name": "col8",
+                    "type": "string",
+                    "sticky": true
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Prod folder ID",
+                    "name": "col9",
+                    "type": "string",
+                    "sticky": true
+                  }
+                ],
+                "label": "Entry",
+                "type": "object",
+                "name": "entry"
+              }
+            ]
+          }
+        ],
+        "comment": "Lookup all configured projects from the lookup table.",
+        "uuid": "724c3d4f-2e44-459e-ba93-0a7453e46588"
+      },
+      {
+        "number": 2,
+        "provider": "workato_service",
+        "name": "send_reply",
+        "as": "e07b9b16",
+        "title": null,
+        "description": "Return <span class=\"provider\">response</span> from <span class=\"provider\">[CICD] CALL - Create projects menu</span>",
+        "keyword": "action",
+        "dynamicPickListSelection": {
+        },
+        "toggleCfg": {
+        },
+        "input": {
+          "reply_type": "success",
+          "reply": {
+            "projects_list": {
+              "____source": "#{_('data.lookup_table.6db75faf.entries')}",
+              "project_name": "#{_('data.lookup_table.6db75faf.entries.first.entry.col1')}",
+              "manifest_id": "#{_('data.lookup_table.6db75faf.entries.first.entry.col2')}"
+            }
+          }
+        },
+        "extended_input_schema": [
+          {
+            "type": "object",
+            "name": "reply",
+            "label": "Reply",
+            "properties": [
+              {
+                "name": "projects_list",
+                "type": "array",
+                "of": "object",
+                "label": "Projects list",
+                "optional": false,
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "Project name",
+                    "name": "project_name",
+                    "type": "string",
+                    "optional": false
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Manifest ID",
+                    "name": "manifest_id",
+                    "type": "string",
+                    "optional": false
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "comment": "Return the projects list.",
+        "uuid": "2dbc3782-26aa-4227-87c4-27daa5615563"
+      }
+    ],
+    "comment": "Create and return a list of configured projects.",
+    "uuid": "191f7dcf-58ac-40a9-8fce-7d9d8adee1a4"
+  },
+  "config": [
+    {
+      "keyword": "application",
+      "provider": "workato_service",
+      "skip_validation": false,
+      "account_id": null
+    },
+    {
+      "keyword": "application",
+      "provider": "lookup_table",
+      "skip_validation": false,
+      "account_id": null
+    }
+  ]
+}
