@@ -1,0 +1,724 @@
+{
+  "name": "[CICD] CALL - Get User's Channel ID",
+  "description": "When there is a trigger event, do action",
+  "version": 7,
+  "private": true,
+  "concurrency": 1,
+  "code": {
+    "number": 0,
+    "provider": "workato_service",
+    "name": "receive_request",
+    "as": "4e73ccb0",
+    "title": null,
+    "description": "New <span class=\"provider\">call</span> for <span class=\"provider\">[CICD] CALL - Get User's Channel ID</span>",
+    "keyword": "trigger",
+    "dynamicPickListSelection": {
+    },
+    "toggleCfg": {
+    },
+    "input": {
+      "service_name": "[CICD] CALL - Get User's Channel ID",
+      "request_schema_json": "[{\"control_type\":\"text\",\"label\":\"User ID\",\"type\":\"string\",\"name\":\"user_id\"}]",
+      "reply_schema_json": "[{\"control_type\":\"text\",\"label\":\"Channel ID\",\"type\":\"string\",\"name\":\"channel_id\"}]"
+    },
+    "extended_output_schema": [
+      {
+        "type": "object",
+        "name": "request",
+        "label": "Recipe input",
+        "properties": [
+          {
+            "control_type": "text",
+            "label": "User ID",
+            "type": "string",
+            "name": "user_id"
+          }
+        ]
+      }
+    ],
+    "block": [
+      {
+        "number": 1,
+        "keyword": "try",
+        "dynamicPickListSelection": {
+        },
+        "toggleCfg": {
+        },
+        "input": {
+        },
+        "block": [
+          {
+            "number": 2,
+            "keyword": "try",
+            "dynamicPickListSelection": {
+            },
+            "toggleCfg": {
+            },
+            "input": {
+            },
+            "block": [
+              {
+                "number": 3,
+                "provider": "teams_bot",
+                "name": "__adhoc_http_action",
+                "as": "391e9fde",
+                "title": "Add app for user",
+                "description": "Add <span class=\"provider\">app for user</span> in <span class=\"provider\">Workbot for Microsoft Teams</span> (Custom)",
+                "keyword": "action",
+                "dynamicPickListSelection": {
+                },
+                "toggleCfg": {
+                },
+                "input": {
+                  "mnemonic": "Add app for user",
+                  "verb": "post",
+                  "response_type": "json",
+                  "path": "v1.0/users/#{_('data.workato_service.4e73ccb0.request.user_id')}/teamwork/installedApps",
+                  "request_type": "raw",
+                  "input": {
+                    "data": "{\n  \"teamsApp@odata.bind\": \"https://graph.microsoft.com/v1.0/appCatalogs/teamsApps/785b5e1d-93e7-48a1-bdad-2d150392935d\"\n}"
+                  }
+                },
+                "extended_input_schema": [
+                  {
+                    "type": "string",
+                    "name": "path",
+                    "control_type": "text",
+                    "label": "Path",
+                    "hint": "Base URI is <b>https://graph.microsoft.com/</b> - path will be appended to this URI. Use absolute URI to override this base URI.",
+                    "optional": false
+                  },
+                  {
+                    "type": "string",
+                    "name": "request_type",
+                    "control_type": "select",
+                    "label": "Request type",
+                    "default": "json",
+                    "sticky": false,
+                    "pick_list": [
+                      [
+                        "JSON request body",
+                        "json"
+                      ],
+                      [
+                        "URL encoded form",
+                        "urlencoded"
+                      ],
+                      [
+                        "Multipart form",
+                        "multipart"
+                      ],
+                      [
+                        "Raw request body",
+                        "raw"
+                      ]
+                    ],
+                    "optional": true,
+                    "extends_schema": true
+                  },
+                  {
+                    "type": "string",
+                    "name": "response_type",
+                    "control_type": "select",
+                    "label": "Response type",
+                    "default": "json",
+                    "sticky": false,
+                    "pick_list": [
+                      [
+                        "JSON response",
+                        "json"
+                      ],
+                      [
+                        "Raw response",
+                        "raw"
+                      ]
+                    ],
+                    "optional": true,
+                    "extends_schema": true
+                  },
+                  {
+                    "type": "object",
+                    "name": "input",
+                    "label": "Input",
+                    "optional": true,
+                    "properties": [
+                      {
+                        "control_type": "text-area",
+                        "label": "Data",
+                        "sticky": true,
+                        "optional": true,
+                        "type": "string",
+                        "name": "data",
+                        "parent": "input"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "array",
+                    "name": "request_headers",
+                    "control_type": "key_value",
+                    "label": "Request headers",
+                    "optional": true,
+                    "of": "object",
+                    "properties": [
+                      {
+                        "control_type": "text",
+                        "label": "Name",
+                        "optional": true,
+                        "type": "string",
+                        "name": "name",
+                        "parent": "request_headers"
+                      },
+                      {
+                        "control_type": "text",
+                        "label": "Value",
+                        "optional": true,
+                        "type": "string",
+                        "name": "value",
+                        "parent": "request_headers"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "name": "output",
+                    "control_type": "schema-designer",
+                    "label": "Response body",
+                    "sticky": true,
+                    "optional": true,
+                    "extends_schema": true,
+                    "schema_neutral": true
+                  },
+                  {
+                    "type": "string",
+                    "name": "response_headers",
+                    "control_type": "schema-designer",
+                    "label": "Response headers",
+                    "sticky": false,
+                    "optional": true,
+                    "extends_schema": true,
+                    "schema_neutral": true
+                  }
+                ],
+                "uuid": "6a8a16f2-32b3-4c0f-ab26-eb657cd79401",
+                "skip": false
+              },
+              {
+                "number": 4,
+                "as": "38ecbab6",
+                "keyword": "catch",
+                "dynamicPickListSelection": {
+                },
+                "toggleCfg": {
+                },
+                "input": {
+                  "max_retry_count": "0",
+                  "retry_interval": "2"
+                },
+                "block": [
+
+                ],
+                "uuid": "7e3c9d78-394c-44e9-9537-7d6a4eb96503"
+              }
+            ],
+            "uuid": "308cfd07-a525-4e63-8b8b-da499f61550c"
+          },
+          {
+            "number": 5,
+            "provider": "teams_bot",
+            "name": "__adhoc_http_action",
+            "as": "eb47cfcf",
+            "title": "List apps for user",
+            "description": "List <span class=\"provider\">apps for user</span> in <span class=\"provider\">Workbot for Microsoft Teams</span> (Custom)",
+            "keyword": "action",
+            "dynamicPickListSelection": {
+            },
+            "toggleCfg": {
+            },
+            "input": {
+              "mnemonic": "List apps for user",
+              "verb": "get",
+              "response_type": "json",
+              "path": "v1.0/users/#{_('data.workato_service.4e73ccb0.request.user_id')}/teamwork/installedApps?$filter=teamsApp/id eq '785b5e1d-93e7-48a1-bdad-2d150392935d'",
+              "output": "[{\"control_type\":\"text\",\"label\":\"Odata.context\",\"type\":\"string\",\"name\":\"_odata.context\"},{\"control_type\":\"number\",\"label\":\"Odata.count\",\"parse_output\":\"float_conversion\",\"type\":\"number\",\"name\":\"_odata.count\"},{\"name\":\"value\",\"type\":\"array\",\"of\":\"object\",\"label\":\"Value\",\"properties\":[{\"control_type\":\"text\",\"label\":\"ID\",\"type\":\"string\",\"name\":\"id\"}]}]"
+            },
+            "extended_output_schema": [
+              {
+                "type": "string",
+                "name": "_odata.context",
+                "control_type": "text",
+                "label": "Odata.context",
+                "optional": true
+              },
+              {
+                "type": "number",
+                "name": "_odata.count",
+                "control_type": "number",
+                "label": "Odata.count",
+                "optional": true,
+                "parse_output": "float_conversion"
+              },
+              {
+                "type": "array",
+                "name": "value",
+                "label": "Value",
+                "optional": true,
+                "of": "object",
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "ID",
+                    "optional": true,
+                    "type": "string",
+                    "name": "id"
+                  }
+                ]
+              }
+            ],
+            "extended_input_schema": [
+              {
+                "type": "string",
+                "name": "path",
+                "control_type": "text",
+                "label": "Path",
+                "hint": "Base URI is <b>https://graph.microsoft.com/</b> - path will be appended to this URI. Use absolute URI to override this base URI.",
+                "optional": false
+              },
+              {
+                "type": "string",
+                "name": "response_type",
+                "control_type": "select",
+                "label": "Response type",
+                "default": "json",
+                "sticky": false,
+                "pick_list": [
+                  [
+                    "JSON response",
+                    "json"
+                  ],
+                  [
+                    "Raw response",
+                    "raw"
+                  ]
+                ],
+                "optional": true,
+                "extends_schema": true
+              },
+              {
+                "type": "object",
+                "name": "input",
+                "control_type": "form-schema-builder",
+                "label": "Request URL parameters",
+                "sticky": true,
+                "optional": true,
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "Schema",
+                    "extends_schema": true,
+                    "sticky": true,
+                    "optional": true,
+                    "type": "string",
+                    "name": "schema",
+                    "parent": "input"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "name": "request_headers",
+                "control_type": "key_value",
+                "label": "Request headers",
+                "optional": true,
+                "of": "object",
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "Name",
+                    "optional": true,
+                    "type": "string",
+                    "name": "name",
+                    "parent": "request_headers"
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Value",
+                    "optional": true,
+                    "type": "string",
+                    "name": "value",
+                    "parent": "request_headers"
+                  }
+                ]
+              },
+              {
+                "type": "string",
+                "name": "output",
+                "control_type": "schema-designer",
+                "label": "Response body",
+                "sticky": true,
+                "optional": true,
+                "extends_schema": true,
+                "schema_neutral": true
+              },
+              {
+                "type": "string",
+                "name": "response_headers",
+                "control_type": "schema-designer",
+                "label": "Response headers",
+                "sticky": false,
+                "optional": true,
+                "extends_schema": true,
+                "schema_neutral": true
+              }
+            ],
+            "visible_config_fields": [
+              "mnemonic",
+              "verb",
+              "path",
+              "request_type",
+              "response_type",
+              "input",
+              "input.data",
+              "output",
+              "request_headers"
+            ],
+            "uuid": "46a710ba-861c-4285-a535-497649083ce8",
+            "skip": false
+          },
+          {
+            "number": 6,
+            "provider": "teams_bot",
+            "name": "__adhoc_http_action",
+            "as": "608daa21",
+            "title": "Get chat between user and app",
+            "description": "Get <span class=\"provider\">chat between user and app</span> in <span class=\"provider\">Workbot for Microsoft Teams</span> (Custom)",
+            "keyword": "action",
+            "dynamicPickListSelection": {
+            },
+            "toggleCfg": {
+            },
+            "input": {
+              "mnemonic": "Get chat between user and app",
+              "verb": "get",
+              "response_type": "json",
+              "path": "beta/users/#{_('data.workato_service.4e73ccb0.request.user_id')}/teamwork/installedApps/#{_('data.teams_bot.eb47cfcf.value.first.id')}/chat",
+              "output": "[{\"control_type\":\"text\",\"label\":\"Odata.context\",\"type\":\"string\",\"name\":\"_odata.context\"},{\"control_type\":\"text\",\"label\":\"ID\",\"type\":\"string\",\"name\":\"id\"},{\"control_type\":\"text\",\"label\":\"Topic\",\"type\":\"string\",\"name\":\"topic\"},{\"control_type\":\"text\",\"label\":\"Created date time\",\"render_input\":\"date_time_conversion\",\"parse_output\":\"date_time_conversion\",\"type\":\"date_time\",\"name\":\"createdDateTime\"},{\"control_type\":\"text\",\"label\":\"Last updated date time\",\"render_input\":\"date_time_conversion\",\"parse_output\":\"date_time_conversion\",\"type\":\"date_time\",\"name\":\"lastUpdatedDateTime\"},{\"control_type\":\"text\",\"label\":\"Chat type\",\"type\":\"string\",\"name\":\"chatType\"},{\"control_type\":\"text\",\"label\":\"Web URL\",\"type\":\"string\",\"name\":\"webUrl\"},{\"control_type\":\"text\",\"label\":\"Viewpoint\",\"type\":\"string\",\"name\":\"viewpoint\"}]"
+            },
+            "extended_output_schema": [
+              {
+                "type": "string",
+                "name": "_odata.context",
+                "control_type": "text",
+                "label": "Odata.context",
+                "optional": true
+              },
+              {
+                "type": "string",
+                "name": "id",
+                "control_type": "text",
+                "label": "ID",
+                "optional": true
+              },
+              {
+                "type": "string",
+                "name": "topic",
+                "control_type": "text",
+                "label": "Topic",
+                "optional": true
+              },
+              {
+                "type": "date_time",
+                "name": "createdDateTime",
+                "control_type": "text",
+                "label": "Created date time",
+                "optional": true,
+                "render_input": "date_time_conversion",
+                "parse_output": "date_time_conversion"
+              },
+              {
+                "type": "date_time",
+                "name": "lastUpdatedDateTime",
+                "control_type": "text",
+                "label": "Last updated date time",
+                "optional": true,
+                "render_input": "date_time_conversion",
+                "parse_output": "date_time_conversion"
+              },
+              {
+                "type": "string",
+                "name": "chatType",
+                "control_type": "text",
+                "label": "Chat type",
+                "optional": true
+              },
+              {
+                "type": "string",
+                "name": "webUrl",
+                "control_type": "text",
+                "label": "Web URL",
+                "optional": true
+              },
+              {
+                "type": "string",
+                "name": "viewpoint",
+                "control_type": "text",
+                "label": "Viewpoint",
+                "optional": true
+              }
+            ],
+            "extended_input_schema": [
+              {
+                "type": "string",
+                "name": "path",
+                "control_type": "text",
+                "label": "Path",
+                "hint": "Base URI is <b>https://graph.microsoft.com/</b> - path will be appended to this URI. Use absolute URI to override this base URI.",
+                "optional": false
+              },
+              {
+                "type": "string",
+                "name": "response_type",
+                "control_type": "select",
+                "label": "Response type",
+                "default": "json",
+                "sticky": false,
+                "pick_list": [
+                  [
+                    "JSON response",
+                    "json"
+                  ],
+                  [
+                    "Raw response",
+                    "raw"
+                  ]
+                ],
+                "optional": true,
+                "extends_schema": true
+              },
+              {
+                "type": "object",
+                "name": "input",
+                "control_type": "form-schema-builder",
+                "label": "Request URL parameters",
+                "sticky": true,
+                "optional": true,
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "Schema",
+                    "extends_schema": true,
+                    "sticky": true,
+                    "optional": true,
+                    "type": "string",
+                    "name": "schema",
+                    "parent": "input"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "name": "request_headers",
+                "control_type": "key_value",
+                "label": "Request headers",
+                "optional": true,
+                "of": "object",
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "Name",
+                    "optional": true,
+                    "type": "string",
+                    "name": "name",
+                    "parent": "request_headers"
+                  },
+                  {
+                    "control_type": "text",
+                    "label": "Value",
+                    "optional": true,
+                    "type": "string",
+                    "name": "value",
+                    "parent": "request_headers"
+                  }
+                ]
+              },
+              {
+                "type": "string",
+                "name": "output",
+                "control_type": "schema-designer",
+                "label": "Response body",
+                "sticky": true,
+                "optional": true,
+                "extends_schema": true,
+                "schema_neutral": true
+              },
+              {
+                "type": "string",
+                "name": "response_headers",
+                "control_type": "schema-designer",
+                "label": "Response headers",
+                "sticky": false,
+                "optional": true,
+                "extends_schema": true,
+                "schema_neutral": true
+              }
+            ],
+            "visible_config_fields": [
+              "mnemonic",
+              "verb",
+              "path",
+              "request_type",
+              "response_type",
+              "input",
+              "input.data",
+              "output",
+              "request_headers"
+            ],
+            "uuid": "98185298-6677-4a45-861f-7edb8b27dd42",
+            "skip": false
+          },
+          {
+            "number": 7,
+            "provider": "workato_service",
+            "name": "send_reply",
+            "as": "1f0271ba",
+            "title": null,
+            "description": "Return <span class=\"provider\">response</span> from <span class=\"provider\">[CICD] CALL - Get User's Channel ID</span>",
+            "keyword": "action",
+            "dynamicPickListSelection": {
+            },
+            "toggleCfg": {
+            },
+            "input": {
+              "reply_type": "success",
+              "reply": {
+                "channel_id": "#{_('data.teams_bot.608daa21.id')}"
+              }
+            },
+            "extended_input_schema": [
+              {
+                "type": "object",
+                "name": "reply",
+                "label": "Reply",
+                "properties": [
+                  {
+                    "control_type": "text",
+                    "label": "Channel ID",
+                    "type": "string",
+                    "name": "channel_id"
+                  }
+                ]
+              }
+            ],
+            "uuid": "bb890c6e-99be-4be2-9212-5a2bbcf67e0d"
+          },
+          {
+            "number": 8,
+            "as": "31ccb14c",
+            "keyword": "catch",
+            "dynamicPickListSelection": {
+            },
+            "toggleCfg": {
+            },
+            "input": {
+              "max_retry_count": "0",
+              "retry_interval": "2"
+            },
+            "block": [
+              {
+                "number": 9,
+                "provider": "workato_service",
+                "name": "send_reply",
+                "as": "d660360a",
+                "title": null,
+                "description": "Return <span class=\"provider\">response</span> from <span class=\"provider\">[CICD] CALL - Get User's Channel ID</span>",
+                "keyword": "action",
+                "dynamicPickListSelection": {
+                },
+                "toggleCfg": {
+                },
+                "input": {
+                  "reply_type": "error",
+                  "message": "#{_('data.catch.31ccb14c.message')}"
+                },
+                "extended_input_schema": [
+                  {
+                    "type": "string",
+                    "name": "message",
+                    "control_type": "text",
+                    "label": "Message",
+                    "hint": "Error message"
+                  },
+                  {
+                    "type": "string",
+                    "name": "code",
+                    "control_type": "text",
+                    "label": "Error code",
+                    "hint": "Use this field to set custom HTTP error code for service replies. E.g: 404/422 etc. This field is applicable to REST service recipes.",
+                    "optional": true
+                  },
+                  {
+                    "type": "boolean",
+                    "name": "custom_error_response",
+                    "control_type": "checkbox",
+                    "label": "Custom error response?",
+                    "hint": "By default, Workato sends 'reply_type' and 'message' fields in response. When set to 'Yes', the content of the 'Message' field is sent as response body. This field is applicable to REST service recipes.",
+                    "optional": true,
+                    "toggle_hint": "Select from option list",
+                    "toggle_field": {
+                      "label": "Custom error response?",
+                      "control_type": "text",
+                      "toggle_hint": "Use custom value",
+                      "optional": true,
+                      "hint": "By default, Workato sends 'reply_type' and 'message' fields in response. When set to 'Yes', the content of the 'Message' field is sent as response body. This field is applicable to REST service recipes.",
+                      "type": "boolean",
+                      "name": "custom_error_response"
+                    },
+                    "render_input": {
+                    },
+                    "parse_output": {
+                    }
+                  }
+                ],
+                "uuid": "7a76a04d-5769-4cab-906b-28a6a34f4b2d"
+              },
+              {
+                "number": 10,
+                "keyword": "stop",
+                "dynamicPickListSelection": {
+                },
+                "toggleCfg": {
+                },
+                "input": {
+                  "stop_with_error": "true",
+                  "stop_reason": "#{_('data.catch.31ccb14c.message')}"
+                },
+                "uuid": "df716d2d-1534-42a1-aa9d-1fa7c16ca504"
+              }
+            ],
+            "uuid": "410c5013-593e-4d81-b519-b7565fca3e2c"
+          }
+        ],
+        "uuid": "3cbeddeb-cc23-4949-a9ec-38a72a9b492e"
+      }
+    ],
+    "uuid": "562372e7-5f3d-4748-9e73-80c79d22bc35"
+  },
+  "config": [
+    {
+      "keyword": "application",
+      "provider": "workato_service",
+      "skip_validation": false,
+      "account_id": null
+    },
+    {
+      "keyword": "application",
+      "provider": "teams_bot",
+      "skip_validation": false,
+      "account_id": {
+        "zip_name": "Connections/cicd_conn_workbot_for_microsoft_teams.connection.json",
+        "name": "[CICD] CONN - Workbot for Microsoft Teams",
+        "folder": "Connections"
+      }
+    }
+  ]
+}
